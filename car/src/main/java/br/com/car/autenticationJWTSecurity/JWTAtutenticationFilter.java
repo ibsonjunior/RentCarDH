@@ -2,6 +2,7 @@ package br.com.car.autenticationJWTSecurity;
 import br.com.car.autenticationJWTData.UserDetailsCar;
 import br.com.car.entities.User;
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -14,12 +15,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 //Autenticar o usuario e gerar token jwt
 public class JWTAtutenticationFilter extends UsernamePasswordAuthenticationFilter {
 
 //    psfi para fazer a classe abaixo
-    public static final int TOKEN_EXPIRATION = 600_000;
+    public static final int TOKEN_EXPIRATION = 600000_000;
+    //Senha de geração do token
+    public static final String TOKEN_PASSWORD = "35ce8d70-2607-4054-974a-1846d639de30";
 
     private final AuthenticationManager authenticationManager;
 
@@ -37,9 +41,9 @@ public class JWTAtutenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             User user = new ObjectMapper().readValue(request.getInputStream(), User.class);
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                    user.getEmail(),
+                    user.getLogin(),
                     user.getPassword(),
-                    //Seria permissões do usuario, mas não fizemos esse tratamento
+                    //Seria as permissões do usuario, mas não fizemos esse tratamento
                     new ArrayList<>()
             ));
         } catch (IOException e) {
@@ -55,8 +59,14 @@ public class JWTAtutenticationFilter extends UsernamePasswordAuthenticationFilte
         UserDetailsCar userDetails = (UserDetailsCar) authResult.getPrincipal();
 
         //geração do token
-        String token = JWT.create().
-                withSubject(userDetails.getUsername()).
-                withExpiresAt()
+        //Gerar e criptografar token
+        String token = JWT.create()
+                .withSubject(userDetails.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION))
+                .sign(Algorithm.HMAC512(TOKEN_PASSWORD));
+
+        //Registrar no corpo da página
+        response.getWriter().write(token);
+        response.getWriter().flush();
     }
 }

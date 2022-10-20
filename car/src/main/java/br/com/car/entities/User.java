@@ -1,5 +1,7 @@
 package br.com.car.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,24 +16,27 @@ public class User implements Serializable {
     private String name;
     private String lastName;
     @Column(unique = true)
-    private String email;
+    //email
+    private String login;
+    //Não vai mostrar a senha na requisição get
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public User() {
     }
 
-    public User(Integer id, String name, String lastName, String email, String password) {
+    public User(Integer id, String name, String lastName, String login, String password) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
+        this.login = login;
         this.password = password;
     }
 
-    public User(String name, String lastName, String email, String password) {
+    public User(String name, String lastName, String login, String password) {
         this.name = name;
         this.lastName = lastName;
-        this.email = email;
+        this.login = login;
         this.password = password;
     }
 
@@ -59,12 +64,12 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getEmail() {
-        return email;
+    public String getLogin() {
+        return login;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getPassword() {
