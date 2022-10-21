@@ -36,7 +36,7 @@ public class UserJWTService implements UserDetailsService {
     //Consulta do usuario
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = repository.findByLogin(username);
-        //Se for vázio, lançará uma excetion
+        //Se for vázio, lançará uma exception
         if(user.isEmpty()){
             throw new UsernameNotFoundException("Usuário ["+ username + "] não encontrado");
         }

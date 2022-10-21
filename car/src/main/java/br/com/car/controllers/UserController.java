@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> insertCar(@RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> insertUser(@RequestBody UserDto dto) {
         dto = service.insert(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
@@ -38,13 +38,13 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<UserDto> updateCar(@PathVariable Integer id,  @RequestBody UserDto dto) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id,  @RequestBody UserDto dto) {
         dto = service.update(id, dto);
         return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteCar(@PathVariable Integer id) {
+    public ResponseEntity<Void> deleteUser(@PathVariable Integer id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }

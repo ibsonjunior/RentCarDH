@@ -1,12 +1,10 @@
 package br.com.car.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table
+@Table(name = "usuario")
 public class User implements Serializable {
     public static final long serialVersionUID = 1L;
 
@@ -15,11 +13,11 @@ public class User implements Serializable {
     private Integer id;
     private String name;
     private String lastName;
-    @Column(unique = true)
+//    @Column(unique = true)
     //email
     private String login;
     //Não vai mostrar a senha na requisição get
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public User() {

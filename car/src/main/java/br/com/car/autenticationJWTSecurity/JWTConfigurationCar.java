@@ -45,12 +45,16 @@ public class JWTConfigurationCar extends WebSecurityConfigurerAdapter {
 //        Quando usamos Aplicações Rest queremos um ambiente stataless, não grava estado
 
         http.csrf().disable().authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/h2/**").permitAll()
                 .anyRequest().authenticated()
+                .and()
+                .headers().frameOptions().disable()
                 .and()
                 .addFilter(new JWTAtutenticationFilter(authenticationManager()))
                 .addFilter(new JWTValidationFilter(authenticationManager()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            ;
     }
     //        Configuração do cors
     @Bean
@@ -62,3 +66,22 @@ public class JWTConfigurationCar extends WebSecurityConfigurerAdapter {
         return source;
     }
 }
+
+//        jdbc:h2:~/db/mydb:produtoDB
+//        Diogo Magliano20:38
+//        spring.h2.console.enabled=true
+//        Diogo Magliano20:46
+//@Override
+//protected void configure(HttpSecurity http) throws Exception {
+//        http
+//        .authorizeRequests()
+//        .antMatchers(HttpMethod.POST, "/usuario").permitAll()
+//        .antMatchers("/h2-console/**").permitAll()
+//        .anyRequest().authenticated()
+//        .and()
+//        .cors()
+//        .and()
+//        .csrf().disable()
+//        .headers().frameOptions().disable()
+//        .and()
+//        .o
