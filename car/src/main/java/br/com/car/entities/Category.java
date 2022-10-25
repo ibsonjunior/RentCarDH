@@ -21,24 +21,19 @@ public class Category implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String image;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)
-    private Set<Car> car = new HashSet<>();
-
     public Category() {}
 
-    public Category(Integer id, String qualification, String description, String image, Set<Car> car) {
+    public Category(Integer id, String qualification, String description, String image) {
         this.id = id;
         this.qualification = qualification;
         this.description = description;
         this.image = image;
-        this.car = car;
     }
 
-    public Category(String qualification, String description, String image, Set<Car> car) {
+    public Category(String qualification, String description, String image) {
         this.qualification = qualification;
         this.description = description;
         this.image = image;
-        this.car = car;
     }
 
     public Integer getId() {
@@ -71,13 +66,5 @@ public class Category implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public Set<Car> getCar() {
-        return car;
-    }
-
-    public void setCar(Set<Car> car) {
-        this.car = car;
     }
 }

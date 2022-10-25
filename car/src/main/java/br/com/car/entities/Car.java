@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table
@@ -22,32 +24,33 @@ public class Car implements Serializable {
     private String description;
     private double price;
     //Tudo o que fizer em um reflete em no outro
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "catedory_id")
-    //Tratamento de exceções
+    @ManyToMany
+    @JoinTable(name = "car_category",
+            joinColumns = @JoinColumn(name = "id_car"),
+            inverseJoinColumns = @JoinColumn(name = "id_category"))
     @JsonIgnore
-    private Category category;
+    Set<Category> categories = new HashSet<>();
 
     public Car() {
     }
 
-    public Car(Integer id, String title, String location, String img, String description, double price, Category category) {
+    public Car(Integer id, String title, String location, String img, String description, double price, Set<Category> categories) {
         this.id = id;
         this.title = title;
         this.location = location;
         this.img = img;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.categories = categories;
     }
 
-    public Car(String title, String location, String img, String description, double price, Category category) {
+    public Car(String title, String location, String img, String description, double price, Set<Category> categories) {
         this.title = title;
         this.location = location;
         this.img = img;
         this.description = description;
         this.price = price;
-        this.category = category;
+        this.categories = categories;
     }
 
     public Integer getId() {
@@ -98,11 +101,11 @@ public class Car implements Serializable {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public Set<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(Set<Category> categories) {
+        this.categories = categories;
     }
 }

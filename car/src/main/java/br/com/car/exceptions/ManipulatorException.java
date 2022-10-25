@@ -1,4 +1,4 @@
-package br.com.car.controllers.exceptions;
+package br.com.car.exceptions;
 
 import br.com.car.services.exceptions.DatabaseCarException;
 import br.com.car.services.exceptions.EntityCarNotFoundException;
