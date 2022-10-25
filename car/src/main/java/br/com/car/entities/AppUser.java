@@ -22,7 +22,7 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     private AppUserRoles appUserRoles;
 
-    public AppUser() {
+     public AppUser() {
     }
 
     public AppUser(String name, String username, String email, String password, AppUserRoles appUserRoles) {
