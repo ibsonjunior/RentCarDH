@@ -3,8 +3,6 @@ package br.com.car.dtos;
 import br.com.car.entities.Category;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 public class CategoryDto implements Serializable {
     public static final long serialVersionUID = 1L;
@@ -13,7 +11,7 @@ public class CategoryDto implements Serializable {
     private String qualification;
     private String description;
     private String image;
-    private Set<CarDto> car = new HashSet<CarDto>();
+
 
     public CategoryDto() {
     }
@@ -29,7 +27,6 @@ public class CategoryDto implements Serializable {
         qualification = category.getQualification();
         description = category.getDescription();
         image = category.getImage();
-        category.getCar().forEach(car -> this.car.add(new CarDto(car)));
     }
 
     public Integer getId() {
@@ -62,13 +59,5 @@ public class CategoryDto implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public Set<CarDto> getCar() {
-        return car;
-    }
-
-    public void setCar(Set<CarDto> car) {
-        this.car = car;
     }
 }

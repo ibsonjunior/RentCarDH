@@ -1,7 +1,9 @@
 package br.com.car.services;
 
 import br.com.car.dtos.CarDto;
+import br.com.car.dtos.CategoryDto;
 import br.com.car.entities.Car;
+import br.com.car.entities.Category;
 import br.com.car.repositories.CarRepository;
 import br.com.car.repositories.CategoryRepository;
 import br.com.car.services.exceptions.DatabaseCarException;
@@ -26,7 +28,7 @@ public class CarService {
     private CategoryRepository categoryRepository;
 
 
-
+    //SearchAll
     @Transactional(readOnly = true)
     public List<CarDto> searchAll() {
         try {
@@ -39,6 +41,7 @@ public class CarService {
         }
     }
 
+    //SearchById
     @Transactional(readOnly = true)
     public CarDto searchById(Integer id) {
         Optional<Car> object = repository.findById(id);
@@ -46,6 +49,7 @@ public class CarService {
         return new CarDto(entity);
     }
 
+    //Delete
     public void delete(Integer id) {
         try {
             repository.deleteById(id);
@@ -63,6 +67,7 @@ public class CarService {
         }
     }
 
+    //insert
     @Transactional
     public CarDto insert(CarDto dto) {
         Car entity = new Car();
@@ -91,7 +96,13 @@ public class CarService {
       entity.setImg(dto.getImg());
       entity.setDescription(dto.getDescription());
       entity.setPrice(dto.getPrice());
-      entity.setCategory(dto.getCategory());
+
+        entity.getCategories().clear();
+        for (CategoryDto endDto : dto.getCategories()) {
+            Category category = categoryRepository.getReferenceById(endDto.getId());
+            entity.getCategories().add(category);
+        }
+
     }
 
 

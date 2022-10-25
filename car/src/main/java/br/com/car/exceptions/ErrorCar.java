@@ -1,4 +1,4 @@
-package br.com.car.controllers.exceptions;
+package br.com.car.exceptions;
 
 import java.io.Serializable;
 import java.time.Instant;

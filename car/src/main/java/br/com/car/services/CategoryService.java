@@ -1,10 +1,7 @@
 package br.com.car.services;
 
-import br.com.car.dtos.CarDto;
 import br.com.car.dtos.CategoryDto;
-import br.com.car.entities.Car;
 import br.com.car.entities.Category;
-import br.com.car.repositories.CarRepository;
 import br.com.car.repositories.CategoryRepository;
 import br.com.car.services.exceptions.DatabaseCarException;
 import br.com.car.services.exceptions.EntityCarNotFoundException;
@@ -24,9 +21,6 @@ public class CategoryService {
 
     @Autowired
     private CategoryRepository repository;
-
-    @Autowired
-    private CarRepository carRepository;
 
     @Transactional(readOnly = true)
     public List<CategoryDto> searchAll() {
@@ -90,13 +84,6 @@ public class CategoryService {
         entity.setQualification(dto.getQualification());
         entity.setDescription(dto.getDescription());
         entity.setImage(dto.getImage());
-
-        entity.getCar().clear();
-        for (CarDto endDto : dto.getCar()) {
-            Car car = carRepository.getReferenceById(endDto.getId());
-            entity.getCar().add(car);
-        }
-
     }
 
 }

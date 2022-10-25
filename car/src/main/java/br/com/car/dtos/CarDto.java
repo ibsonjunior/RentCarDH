@@ -1,9 +1,10 @@
 package br.com.car.dtos;
 
 import br.com.car.entities.Car;
-import br.com.car.entities.Category;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 public class CarDto implements Serializable {
     public static final long serialVersionUID = 1L;
@@ -14,7 +15,7 @@ public class CarDto implements Serializable {
     private String img;
     private String description;
     private double price;
-    private Category category;
+    private Set<CategoryDto> categories = new HashSet<>();
 
 
 
@@ -28,15 +29,16 @@ public class CarDto implements Serializable {
         img = car.getImg();
         description = car.getDescription();
         price = car.getPrice();
-        category = car.getCategory();
+        car.getCategories().forEach(categories -> this.categories.add(new CategoryDto(categories)));
     }
 
-    public CarDto(String title, String location, String img, String description, double price) {
+    public CarDto(String title, String location, String img, String description, double price, Set<CategoryDto> categories) {
         this.title = title;
         this.location = location;
         this.img = img;
         this.description = description;
         this.price = price;
+        this.categories = categories;
     }
 
     public Integer getId() {
@@ -87,11 +89,11 @@ public class CarDto implements Serializable {
         this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public Set<CategoryDto> getCategories() {
+        return categories;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setCategories(Set<CategoryDto> categories) {
+        this.categories = categories;
     }
 }
